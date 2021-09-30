@@ -1,5 +1,7 @@
 package me.superbiebel.gaudiumperms.treeimpl;
 
+import me.superbiebel.gaudiumperms.Constants;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +16,7 @@ public class PermissionTree {
 
     public void addPermission(String permission, boolean value) {
         List<String> stringPermissionNodes = Arrays.asList(permissionSplitPattern.split(permission));
-        stringPermissionNodes.add("*");
+        stringPermissionNodes.add(Constants.DOUBLE_WILDCARD);
         PermissionNode rootnode = rootNodes.stream().filter(permissionNode -> permissionNode.getName().equals(stringPermissionNodes.get(0))).findAny().orElse(null);
         if (rootnode == null) {
             rootnode = new PermissionNode(stringPermissionNodes.get(0), value);
@@ -38,5 +40,6 @@ public class PermissionTree {
                 return PermissionCheckResult.FALSE;
             }
         }
+        throw new UnsupportedOperationException("not implemented yet"); //TODO: remove exception when this method has finished development
     }
 }
