@@ -1,9 +1,9 @@
-package me.superbiebel.gaudiumperms.treeimpl;
+package me.superbiebel.gaudiumperms.treeimpl.node;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
 
 public class PermissionNode {
     @Getter
@@ -11,7 +11,7 @@ public class PermissionNode {
     @Getter
     private final boolean value;
     @Getter
-    private final HashMap<String, PermissionNode> children = new HashMap<>();
+    private final Map<String, PermissionNode> children = new HashMap<>();
 
     public PermissionNode(String name, boolean value) {
         this.name = name;
@@ -23,6 +23,10 @@ public class PermissionNode {
     }
     public boolean removeChild(PermissionNode child) {
         return children.remove(child.getName()) != null;
+    }
+    @Nullable
+    public PermissionNode getChild(String name) {
+        return children.get(name);
     }
     public boolean hasChildren() {
         return children.isEmpty();

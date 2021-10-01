@@ -1,8 +1,15 @@
 package me.superbiebel.gaudiumperms.treeimpl;
 
 public enum PermissionCheckResult {
-    TRUE(false), FALSE(false), UNDEFINED(false);
+    TRUE, FALSE, UNDEFINED;
 
-    PermissionCheckResult(boolean value) {
+    PermissionCheckResult() {
+    }
+    public static PermissionCheckResult getFromBoolean(boolean value) {
+        if (value) {
+            return PermissionCheckResult.TRUE;
+        } else {
+            return PermissionCheckResult.FALSE;
+        }
     }
 }
