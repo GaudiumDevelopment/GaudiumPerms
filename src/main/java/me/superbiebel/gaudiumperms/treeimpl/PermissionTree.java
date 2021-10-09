@@ -13,9 +13,15 @@ public class PermissionTree {
 
     public void addPermission(String permission, boolean value) {
         List<String> stringPermissionNodes = new ArrayList<>(Arrays.asList(Utils.splitPermission(permission)));
-        stringPermissionNodes.add(Constants.DOUBLE_WILDCARD); // add the ending double wildcard, must always be a leaf node
-        PermissionNode rootnode = rootNodes.get(stringPermissionNodes.get(0));
 
+        int doubleWildcardCount = Utils.checkDoubleWildcardCount(stringPermissionNodes);
+        if (doubleWildcardCount > 1) {
+            throw new IllegalArgumentException("invalid permission: multiple double wildcards");
+        } else if (doubleWildcardCount == 0) {
+            stringPermissionNodes.add(Constants.DOUBLE_WILDCARD); // add the ending double wildcard, must always be a leaf node
+        }
+
+        PermissionNode rootnode = rootNodes.get(stringPermissionNodes.get(0));
 
         if (rootnode == null) { //create rootnode if it doesn't exist
             rootnode = Utils.createNewPermissionNode(stringPermissionNodes.get(0), value);
@@ -33,7 +39,15 @@ public class PermissionTree {
         }
     }
     public PermissionCheckResult checkPermissionInTree(String permission) {
-        List<String> stringPermissionNodes = Arrays.asList(Utils.splitPermission(permission));
+        List<String> stringPermissionNodes = new ArrayList<>(Arrays.asList(Utils.splitPermission(permission)));
+        int doubleWildcardCount = Utils.checkDoubleWildcardCount(stringPermissionNodes);
+        if (doubleWildcardCount > 1 ) {
+            throw new IllegalArgumentException("Too many double wildcards for permission check");
+        }
+        if (stringPermissionNodes.get(stringPermissionNodes.size() - 1).equals(Constants.DOUBLE_WILDCARD)) {
+            stringPermissionNodes.remove(stringPermissionNodes.size() - 1);
+        }
+
         PermissionNode rootnode = rootNodes.get(stringPermissionNodes.get(0));
         if (rootnode == null) {
             return PermissionCheckResult.UNDEFINED;
@@ -41,12 +55,31 @@ public class PermissionTree {
         if (stringPermissionNodes.size() == 1) {
             return PermissionCheckResult.getFromBoolean(rootnode.isValue());
         }
-
-
-
-
-
-
-        throw new UnsupportedOperationException("not implemented yet"); //TODO: remove exception when this method has finished development
+        PermissionNode currentNode = rootnode;
+        for (int i = 1; i <= stringPermissionNodes.size(); i++) {
+            PermissionNode foundnode;
+            if (i == stringPermissionNodes.size()) {
+                if ((foundnode = currentNode.getChild(Constants.DOUBLE_WILDCARD)) != null) {
+                    return PermissionCheckResult.getFromBoolean(foundnode.isValue());
+                } else {
+                    return PermissionCheckResult.UNDEFINED;
+                }
+            }
+            if (currentNode.hasChildren()) {
+                foundnode = currentNode.getChild(stringPermissionNodes.get(i));
+                if ( foundnode != null) {
+                    currentNode = foundnode;
+                } else if ((foundnode = currentNode.getChild(Constants.SINGLE_WILDCARD)) != null) {
+                    currentNode = foundnode;
+                } else if ((foundnode = currentNode.getChild(Constants.DOUBLE_WILDCARD)) != null) {
+                    return PermissionCheckResult.getFromBoolean(foundnode.isValue());
+                } else {
+                    throw new IllegalStateException("Could not find a double wildcard as leaf, tree is corrupted");
+                }
+            } else {
+                throw new IllegalStateException("Could not find a double wildcard as leaf, because the last node didn't have any children");
+            }
+        }
+        throw new IllegalStateException("went out of loop");
     }
 }

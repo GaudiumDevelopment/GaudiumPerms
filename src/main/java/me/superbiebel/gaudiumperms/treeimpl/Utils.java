@@ -30,4 +30,7 @@ public class Utils {
             return new PermissionNode(permission, value);
         }
     }
+    public static int checkDoubleWildcardCount(Collection<String> stringPermissionNodes) {
+        return (int) stringPermissionNodes.stream().filter(stringNode -> stringNode.equals(Constants.DOUBLE_WILDCARD)).count();
+    }
 }

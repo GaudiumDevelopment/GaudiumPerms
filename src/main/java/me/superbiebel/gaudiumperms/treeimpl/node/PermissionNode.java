@@ -2,10 +2,13 @@ package me.superbiebel.gaudiumperms.treeimpl.node;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 public class PermissionNode {
+    @Getter
+    public final UUID uuid = UUID.randomUUID();
     @Getter
     private final String name;
     @Getter
@@ -29,6 +32,6 @@ public class PermissionNode {
         return children.get(name);
     }
     public boolean hasChildren() {
-        return children.isEmpty();
+        return !children.isEmpty();
     }
 }
