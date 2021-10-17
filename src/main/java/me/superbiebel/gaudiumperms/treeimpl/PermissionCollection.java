@@ -7,7 +7,7 @@ import java.util.List;
 import me.superbiebel.gaudiumperms.Constants;
 import me.superbiebel.gaudiumperms.treeimpl.node.PermissionNode;
 
-public class PermissionTree {
+public class PermissionCollection {
 
     HashMap<String, PermissionNode> rootNodes = new HashMap<>();
 
