@@ -19,7 +19,7 @@ public class PermissionEvaluatorA implements IPermissionEvaluator {
         Collections.addAll(stringPermissionNodes, Utils.splitPermission(permission));
         int doubleWildcardCount = Utils.checkDoubleWildcardCount(stringPermissionNodes);
         if (doubleWildcardCount > 1 ) {
-            throw new IllegalArgumentException("Too many double wildcards for permission check");
+            throw new IllegalArgumentException("Too many double wildcards for permission check!");
         } else if (stringPermissionNodes.get(stringPermissionNodes.size() - 1).equals(Constants.DOUBLE_WILDCARD)) {
             stringPermissionNodes.remove(stringPermissionNodes.size() - 1);
         }
@@ -52,7 +52,7 @@ public class PermissionEvaluatorA implements IPermissionEvaluator {
                     return PermissionCheckResult.UNDEFINED;
                 }
             } else {
-                throw new IllegalStateException("Could not find a double wildcard as leaf, because the last node didn't have any children");
+                throw new IllegalStateException("Could not find a double wildcard as leaf, because the last node didn't have any children!");
             }
         }
         throw new IllegalStateException("went out of loop");
