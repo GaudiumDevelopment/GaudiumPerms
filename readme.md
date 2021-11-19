@@ -1,7 +1,7 @@
 # explanation of the PermissionTree
 
 ## General rules to construct the permission tree
-1. Every branch must end in a double wildcard. (the system will add this implicitly), so this:is:a:test becomes this:is:a:test:**, this has to do with the tree otherwise not being able to store these implicit wildcards.
+1. Every branch must end in a double wildcard. (the system will add this implicitly), so this:is: a:test becomes this:is: a:test:**, this has to do with the tree otherwise not being able to store these implicit wildcards.
 
 ## rules of permissionevaluator A
 1. More specific permissions will override more generic permissions. (non wildcards override wildcards)
