@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PermissionCollectionTests {
-
     @Test
     void testAddPermission() {
         assertDoesNotThrow(() -> {

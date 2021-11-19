@@ -1,14 +1,71 @@
 [
   {
-    "permissionsToBeAdded":[
-      {"permission" : "this:is:a:test","value" : true},
-      {"permission" :"this:is:a2:test","value" :false},
-      {"permission" :"this:is:a:test3","value" : false}
+    "permissionsToBeAdded": [
+      {
+        "permission": "this:is:a:test",
+        "value": true
+      },
+      {
+        "permission": "this:is:a2:test",
+        "value": false
+      },
+      {
+        "permission": "this:is:a:test3",
+        "value": false
+      }
     ],
     "permissionsToBeChecked": [
-      {"permission" : "this:is:a:test","value" : "TRUE"},
-      {"permission" :"this:is:a2:test","value" :"FALSE"},
-      {"permission" :"this:is:a:test500","value" : "UNDEFINED"}
+      {
+        "permission": "this:is:a:test",
+        "value": "TRUE"
+      },
+      {
+        "permission": "this:is:a2:test",
+        "value": "FALSE"
+      },
+      {
+        "permission": "this:is:a:test500",
+        "value": "UNDEFINED"
+      }
+    ]
+  },
+  {
+    "permissionsToBeAdded": [
+      {
+        "permission": "this:is:*:test",
+        "value": true
+      },
+      {
+        "permission": "this:*:a:test",
+        "value": false
+      },
+      {
+        "permission": "this:is:a2:*",
+        "value": false
+      },
+      {
+        "permission": "this:is:a2:test",
+        "value": true
+      }
+    ],
+    "permissionsToBeChecked": [
+      {
+        "permission": "this:is:a:test",
+        "value": "TRUE"
+      },
+      {
+        "permission": "this:is:a2:test",
+        "value": "TRUE"
+      },
+      {
+        "permission": "this:is:a:test",
+        "value": "TRUE"
+      },
+      {
+        "permission": "this:is:a:test",
+        "value": "TRUE"
+      }
     ]
   }
+
 ]

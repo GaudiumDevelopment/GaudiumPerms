@@ -1,7 +1,0 @@
-this:is:a:test, true, this:is:a:test, TRUE
-this:is:a:test1, true, this:is:a:test, UNDEFINED
-this:is:a:test3, true, this:is:a:test, UNDEFINED
-this:is:a:test4, false, this:is:a:test4, FALSE
-this:is:a:test43, false, this:is:a:test43, FALSE
-this:is:a:test2, false, this:is:a:test2, FALSE
-this:is:a:test9, true, this:is:a:test, UNDEFINED
