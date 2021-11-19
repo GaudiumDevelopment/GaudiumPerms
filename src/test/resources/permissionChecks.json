@@ -1,0 +1,14 @@
+[
+  {
+    "permissionsToBeAdded":[
+      {"permission" : "this:is:a:test","value" : true},
+      {"permission" :"this:is:a2:test","value" :false},
+      {"permission" :"this:is:a:test3","value" : false}
+    ],
+    "permissionsToBeChecked": [
+      {"permission" : "this:is:a:test","value" : "TRUE"},
+      {"permission" :"this:is:a2:test","value" :"FALSE"},
+      {"permission" :"this:is:a:test500","value" : "UNDEFINED"}
+    ]
+  }
+]

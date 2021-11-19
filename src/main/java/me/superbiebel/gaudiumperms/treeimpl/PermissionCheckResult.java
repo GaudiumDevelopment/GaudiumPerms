@@ -12,4 +12,15 @@ public enum PermissionCheckResult {
             return PermissionCheckResult.FALSE;
         }
     }
+    public static PermissionCheckResult getFromString(String value) {
+        if (value.equals(PermissionCheckResult.TRUE.toString())) {
+            return PermissionCheckResult.TRUE;
+        } else if (value.equals(PermissionCheckResult.FALSE.toString())) {
+            return PermissionCheckResult.FALSE;
+        } else if (value.equals(PermissionCheckResult.UNDEFINED.toString())) {
+            return PermissionCheckResult.UNDEFINED;
+        } else {
+            throw new IllegalArgumentException("Could not find value");
+        }
+    }
 }

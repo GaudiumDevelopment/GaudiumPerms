@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import lombok.Getter;
 import me.superbiebel.gaudiumperms.Constants;
 import me.superbiebel.gaudiumperms.treeimpl.node.PermissionNode;
 
 public class PermissionCollection {
 
+    @Getter
     HashMap<String, PermissionNode> rootNodes = new HashMap<>();
 
-    public void addPermission(String permission, boolean value) {
+    public synchronized void addPermission(String permission, boolean value) {
         List<String> stringPermissionNodes = new ArrayList<>(Arrays.asList(Utils.splitPermission(permission)));
 
         int doubleWildcardCount = Utils.checkDoubleWildcardCount(stringPermissionNodes);
@@ -38,48 +40,15 @@ public class PermissionCollection {
             currentNode = foundNode;
         }
     }
-    public PermissionCheckResult checkPermissionInTree(String permission) {
-        List<String> stringPermissionNodes = new ArrayList<>(Arrays.asList(Utils.splitPermission(permission)));
-        int doubleWildcardCount = Utils.checkDoubleWildcardCount(stringPermissionNodes);
-        if (doubleWildcardCount > 1 ) {
-            throw new IllegalArgumentException("Too many double wildcards for permission check");
+    public void addAllPermissions(String[] permissions, boolean[] values) {
+        if (permissions.length != values.length) throw new IllegalArgumentException("Amount of values between the two collections is not equal!");
+        for (int i = 0; i < permissions.length; i++) {
+            addPermission(permissions[i], values[i]);
         }
-        if (stringPermissionNodes.get(stringPermissionNodes.size() - 1).equals(Constants.DOUBLE_WILDCARD)) {
-            stringPermissionNodes.remove(stringPermissionNodes.size() - 1);
+    }
+    public void addAllPermissions(List<String> permissions, List<Boolean> values) {
+        for (int i = 0; i < permissions.size(); i++) {
+            addPermission(permissions.get(i), values.get(i));
         }
-
-        PermissionNode rootnode = rootNodes.get(stringPermissionNodes.get(0));
-        if (rootnode == null) {
-            return PermissionCheckResult.UNDEFINED;
-        }
-        if (stringPermissionNodes.size() == 1) {
-            return PermissionCheckResult.getFromBoolean(rootnode.isValue());
-        }
-        PermissionNode currentNode = rootnode;
-        for (int i = 1; i <= stringPermissionNodes.size(); i++) {
-            PermissionNode foundnode;
-            if (i == stringPermissionNodes.size()) {
-                if ((foundnode = currentNode.getChild(Constants.DOUBLE_WILDCARD)) != null) {
-                    return PermissionCheckResult.getFromBoolean(foundnode.isValue());
-                } else {
-                    return PermissionCheckResult.UNDEFINED;
-                }
-            }
-            if (currentNode.hasChildren()) {
-                foundnode = currentNode.getChild(stringPermissionNodes.get(i));
-                if ( foundnode != null) {
-                    currentNode = foundnode;
-                } else if ((foundnode = currentNode.getChild(Constants.SINGLE_WILDCARD)) != null) {
-                    currentNode = foundnode;
-                } else if ((foundnode = currentNode.getChild(Constants.DOUBLE_WILDCARD)) != null) {
-                    return PermissionCheckResult.getFromBoolean(foundnode.isValue());
-                } else {
-                    throw new IllegalStateException("Could not find a double wildcard as leaf, tree is corrupted");
-                }
-            } else {
-                throw new IllegalStateException("Could not find a double wildcard as leaf, because the last node didn't have any children");
-            }
-        }
-        throw new IllegalStateException("went out of loop");
     }
 }
