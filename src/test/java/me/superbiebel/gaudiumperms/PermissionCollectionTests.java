@@ -25,7 +25,6 @@ class PermissionCollectionTests {
     @JsonFileSource(resources = "/permissionChecks.json")
     void testCheckPermissions(JsonObject jsonObject) {
         PermissionCollection tree = new PermissionCollection();
-
         JsonArray permissionsToBeAdded = jsonObject.getJsonArray("permissionsToBeAdded");
         for (int i = 0; i < permissionsToBeAdded.size();i++) {
             JsonObject permissionAddJsonObject = permissionsToBeAdded.getJsonObject(i);
